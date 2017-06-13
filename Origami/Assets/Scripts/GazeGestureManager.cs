@@ -1,36 +1,37 @@
 ﻿using UnityEngine;
 using UnityEngine.VR.WSA.Input;
+using System.Collections;
 
-public class GazeGestureManager : MonoBehaviour
-{
+public class GazeGestureManager : MonoBehaviour{
+	
+	// Create a one-instance class for this GazeGestureManager class. 
 	public static GazeGestureManager Instance { get; private set; }
 
 	// Represents the hologram that is currently being gazed at.
 	public GameObject FocusedObject { get; private set; }
 
+	// Load the class?
 	GestureRecognizer recognizer;
 
 	// Use this for initialization
-	void Start()
-	{
+	void Start(){
 		Instance = this;
 
 		// Set up a GestureRecognizer to detect Select gestures.
 		recognizer = new GestureRecognizer();
-		recognizer.TappedEvent += (source, tapCount, ray) =>
-		{
+		recognizer.TappedEvent += (source, tapCount, ray) => {
 			// Send an OnSelect message to the focused object and its ancestors.
-			if (FocusedObject != null)
-			{
+			if (FocusedObject != null) {
 				FocusedObject.SendMessageUpwards("OnSelect");
 			}
 		};
 		recognizer.StartCapturingGestures();
+
 	}
 
 	// Update is called once per frame
-	void Update()
-	{
+	void Update() {
+
 		// Figure out which hologram is focused this frame.
 		GameObject oldFocusObject = FocusedObject;
 
@@ -40,21 +41,17 @@ public class GazeGestureManager : MonoBehaviour
 		var gazeDirection = Camera.main.transform.forward;
 
 		RaycastHit hitInfo;
-		if (Physics.Raycast(headPosition, gazeDirection, out hitInfo))
-		{
+		if (Physics.Raycast(headPosition, gazeDirection, out hitInfo))	{
 			// If the raycast hit a hologram, use that as the focused object.
 			FocusedObject = hitInfo.collider.gameObject;
-		}
-		else
-		{
+		} else	{
 			// If the raycast did not hit a hologram, clear the focused object.
 			FocusedObject = null;
 		}
 
 		// If the focused object changed this frame,
 		// start detecting fresh gestures again.
-		if (FocusedObject != oldFocusObject)
-		{
+		if (FocusedObject != oldFocusObject) {
 			recognizer.CancelGestures();
 			recognizer.StartCapturingGestures();
 		}
