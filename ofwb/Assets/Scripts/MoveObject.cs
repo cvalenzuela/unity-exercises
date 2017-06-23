@@ -12,19 +12,19 @@ public class MoveObject : MonoBehaviour {
 	public float speed = 1.0F;
 
 	// Origin Position
-	public Vector3 originPosition = new Vector3 (0, 0, 2);
+	public Vector3 originPosition = new Vector3 (0, 0, 0);
 	// Target Position
-	public Vector3 targetPosition = new Vector3 (-1.18F, 0.55F, 2);
+	public Vector3 targetPosition = new Vector3 (0, 0, 0);
 
 	// Origin Rotation
 	public Quaternion originRotation = Quaternion.Euler (0, 0, 0);
 	// Target Rotation
-	public Quaternion targetRotation = Quaternion.Euler (-1, -0.08F, -0.08F);
-
+	public Quaternion targetRotation = Quaternion.Euler (0,0,0);
+		
 	// Origin Scale
 	public Vector3 originScale = new Vector3 (0, 0, 0);
 	// Target Scale
-	public Vector3 targetScale = new Vector3 (0.7F, 0, 0.05F);
+	public Vector3 targetScale = new Vector3 (0, 0, 0);
 
 	// Boolean to start the movement
 	private bool start = false;
@@ -44,12 +44,13 @@ public class MoveObject : MonoBehaviour {
 	void Update () {
 		// If start is true and the position and rotation is not the desired one, move and rotate using lerp.
 		if(start && transform.position != targetPosition){
+
 			// Move
-			transform.position = Vector3.Lerp (transform.position, targetPosition, speed * Time.deltaTime);
-			// Rotate
-			transform.rotation = Quaternion.Lerp (transform.rotation, targetRotation, speed * Time.deltaTime );
+			transform.localPosition = Vector3.Lerp (transform.localPosition, targetPosition, speed * Time.deltaTime);
 			// Scale
 			transform.localScale = Vector3.Lerp (transform.localScale, targetScale, speed * Time.deltaTime);
+			// Rotate
+			transform.localRotation = Quaternion.Lerp (transform.localRotation, targetRotation, speed * Time.deltaTime);
 
 		}
 		// If reset is true and the position and rotation is not the origin one, move and rotate using lerp.
@@ -60,7 +61,7 @@ public class MoveObject : MonoBehaviour {
 			transform.rotation = Quaternion.Lerp (transform.rotation, originRotation, speed * Time.deltaTime );
 			// Scale
 			transform.localScale = Vector3.Lerp (transform.localScale, originScale, speed * Time.deltaTime);
-
+	
 		}
 	}
 }

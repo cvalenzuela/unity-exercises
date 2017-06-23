@@ -26,6 +26,7 @@ public class RecreateGaze : MonoBehaviour {
 			if (Physics.Raycast (ray, out hit)) {
 				// Save that object as the FocusedObject
 				FocusedObject = hit.collider.gameObject;
+				Debug.Log (FocusedObject);
 				// Send a message to that gameObject
 				FocusedObject.SendMessageUpwards ("OnSelect");
 			} else {
