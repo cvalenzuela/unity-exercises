@@ -11,9 +11,12 @@ public class RecreateGaze : MonoBehaviour {
 
 	// Gameobject being clicked (gazed)
 	public GameObject FocusedObject {get; private set;}
+	// Default object
+	public GameObject defaultNote;
 
 	// User
 	public Camera camera;
+
 
 	void Update () {
 		// If the mouse is pressed
@@ -26,10 +29,12 @@ public class RecreateGaze : MonoBehaviour {
 			if (Physics.Raycast (ray, out hit)) {
 				// Save that object as the FocusedObject
 				FocusedObject = hit.collider.gameObject;
-				Debug.Log (FocusedObject);
+				//Debug.Log (FocusedObject);
 				// Send a message to that gameObject
 				FocusedObject.SendMessageUpwards ("OnSelect");
 			} else {
+				defaultNote = GameObject.FindWithTag("defaultNote");
+				defaultNote.SendMessageUpwards ("OnSelect");
 				// If nothing is hit, clear the FocusedObject
 				FocusedObject = null;
 			}

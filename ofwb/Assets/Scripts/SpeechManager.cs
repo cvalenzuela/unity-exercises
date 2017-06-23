@@ -33,6 +33,12 @@ public class SpeechManager : MonoBehaviour {
 			}
 		});
 
+		// Settings
+		keywords.Add ("Settings", () => {
+			// Call the onClean method on every descendant object.
+			this.BroadcastMessage ("OnSettings");
+		});
+
 		// Tell the KeywordRecognizer about our keywords.
 		keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
 

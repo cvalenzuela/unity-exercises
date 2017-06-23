@@ -14,6 +14,8 @@ public class GazeGestureManager : MonoBehaviour {
 
 	// The object that the user will be gazing at.
 	public GameObject FocusedObject {get; private set; }
+	// Default object
+	public GameObject defaultNote;
 
 	// Hololens Manager class with API for recognizing user gestures.
 	GestureRecognizer recognizer;
@@ -48,6 +50,8 @@ public class GazeGestureManager : MonoBehaviour {
 			// Save the object as the FocusedObject
 			FocusedObject = hitInfo.collider.gameObject;
 		} else {
+			defaultNote = GameObject.FindWithTag("defaultNote");
+			defaultNote.SendMessageUpwards ("OnSelect");
 			// If nothing is hit, clear the FocusedObject
 			FocusedObject = null;
 		}
